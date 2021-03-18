@@ -55,3 +55,20 @@ FRAME_LENGTH = 2048
 HOP_LENGTH = 512
 
 # plot_spectogram(signal=piano,sr=sr,frame_length=FRAME_LENGTH,hop_length=HOP_LENGTH)
+
+
+#  Extraction and plotting of mfccs
+def plot_mfccs(signal,sr,frame_length=2028,hop_length=512,n_mels=13):
+    mfcc_signal = librosa.feature.mfcc(signal,sr,n_mels=n_mels,n_fft=frame_length,hop_length=hop_length)
+    # power to db
+    mfcc_signal_log = librosa.power_to_db(mfcc_signal)
+
+    # plotting the mfcc
+    librosa.display.specshow(mfcc_signal_log,x_axis='time',y_axis='mel')
+    plt.colorbar()
+    plt.title("MFCC of the audio signal")
+    plt.xlabel("Time")
+    plt.ylabel("Mel frequency Coefficents (MFCCs)")
+    plt.savefig("MFCCsignal")
+
+plot_mfccs(piano,sr=sr,frame_length=FRAME_LENGTH,hop_length=HOP_LENGTH)
